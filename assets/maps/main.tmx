@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="5">
+ <tileset firstgid="1" source="map.tsx"/>
+ <tileset firstgid="193" source="objects.tsx"/>
+ <layer id="1" name="ground" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzbxsDAsG2AsB0UjzS7hxK2HwRuGIxuGcXE48GezwY6XRFrP7XDcaD9PdDhOZQxLj/aI2F6u2ckhDupGAAN5qI8
+  </data>
+ </layer>
+ <layer id="2" name="background" width="30" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhYwDfC7MUFGIGYCQ0z08FeXgZIWCBj/lF7R+0dAsATSnuhYW8a2xsKxGFYcDiZ5hFbFlFiLyis0MOHWHsTgTgJC04m0c3Ehg8LELNiwWxE6kd3MzHuBAEBIBbEgoVIsJccgGwvJ4X2wvI4qfZSw7/E2isDxLJYsByZ9g5mAACkHhGE
+  </data>
+ </layer>
+ <objectgroup id="4" name="objects">
+  <object id="2" gid="195" x="72.9091" y="230" width="32" height="32"/>
+  <object id="3" gid="194" x="3.5" y="229" width="41" height="63"/>
+  <object id="4" gid="193" x="53" y="198.667" width="80" height="112"/>
+ </objectgroup>
+</map>

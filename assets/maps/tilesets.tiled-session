@@ -1,0 +1,51 @@
+{
+    "activeFile": "main.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "main.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 273.66666666666663,
+                "y": 141.66666666666666
+            }
+        },
+        "map.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        },
+        "objects.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 3
+        }
+    },
+    "frame.defaultDuration": 200,
+    "last.imagePath": "E:/PROJET/JAVA/FirstGame/assets/maps/objects/player",
+    "map.lastUsedFormat": "tmx",
+    "map.layerDataFormat": "3",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "main.tmx",
+        "map.tsx",
+        "objects.tsx"
+    ],
+    "project": "tilesets.tiled-project",
+    "recentFiles": [
+        "objects.tsx",
+        "map.tsx",
+        "main.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 8,
+    "tileset.spacing": 16,
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 1
+}
