@@ -2,6 +2,8 @@ package io.github.java_first_game.screen;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,6 +13,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.java_first_game.Core;
 import io.github.java_first_game.asset.AssetService;
 import io.github.java_first_game.asset.MapAsset;
+import io.github.java_first_game.input.GameControllerState;
+import io.github.java_first_game.input.KeyboardController;
+import io.github.java_first_game.systems.ControllerSystem;
+import io.github.java_first_game.systems.MoveSystem;
 import io.github.java_first_game.systems.RenderSystem;
 import io.github.java_first_game.tiled.TiledConfiguration;
 import io.github.java_first_game.tiled.TiledService;
@@ -20,29 +26,28 @@ import java.util.function.Consumer;
 /** First screen of the application. Displayed after the application is created. */
 public class GameScreen extends ScreenAdapter {
     private final Core game;
-    private final AssetService assetService;
-    private final Viewport viewport;
-    private final OrthographicCamera camera;
-    private final Batch batch;
     private final Engine engine;
     private final TiledService tiledService;
     private final TiledConfiguration tiledConfiguration;
+    private final KeyboardController keyboardController;
 
     public GameScreen(Core game) {
         this.game = game;
-        this.assetService = game.getAssetService();
-        this.viewport = game.getViewport();
-        this.camera = game.getCamera();
-        this.batch = game.getBatch();
-        this.tiledService = new TiledService(this.assetService);
+        this.tiledService = new TiledService(game.getAssetService());
         this.engine = new Engine();
-        this.tiledConfiguration = new TiledConfiguration(this.engine, this.assetService);
+        this.tiledConfiguration = new TiledConfiguration(this.engine, game.getAssetService());
+        this.keyboardController = new KeyboardController(GameControllerState.class, engine);
 
-        this.engine.addSystem(new RenderSystem(this.batch, this.viewport, this.camera));
+        this.engine.addSystem(new ControllerSystem());
+        this.engine.addSystem(new MoveSystem());
+        this.engine.addSystem(new RenderSystem(game.getBatch(), game.getViewport(), game.getCamera()));
     }
 
     @Override
     public void show() {
+        game.setInputProcessors(keyboardController);
+        keyboardController.setActiveState(GameControllerState.class);
+
         Consumer< TiledMap> renderconsumer = this.engine.getSystem(RenderSystem.class)::setMap;
         this.tiledService.setMapChangeConsumer(renderconsumer);
         this.tiledService.setLoadObjectConsumer(this.tiledConfiguration::onLoadObject);

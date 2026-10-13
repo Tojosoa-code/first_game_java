@@ -1,12 +1,12 @@
 {
-    "activeFile": "main.tmx",
+    "activeFile": "objects.tsx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
         "main.tmx": {
             "scale": 1.5,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 273.66666666666663,
                 "y": 141.66666666666666
@@ -35,10 +35,11 @@
         "objects.tsx"
     ],
     "project": "tilesets.tiled-project",
+    "property.type": "float",
     "recentFiles": [
-        "objects.tsx",
+        "main.tmx",
         "map.tsx",
-        "main.tmx"
+        "objects.tsx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.margin": 8,

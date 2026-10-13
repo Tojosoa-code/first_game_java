@@ -13,7 +13,11 @@
   </data>
  </layer>
  <objectgroup id="4" name="objects">
-  <object id="2" gid="195" x="72.9091" y="230" width="32" height="32"/>
+  <object id="2" gid="195" x="72.9091" y="230" width="32" height="32">
+   <properties>
+    <property name="controller" type="bool" value="true"/>
+   </properties>
+  </object>
   <object id="3" gid="194" x="3.5" y="229" width="41" height="63"/>
   <object id="4" gid="193" x="53" y="198.667" width="80" height="112"/>
  </objectgroup>

@@ -14,7 +14,9 @@ import com.badlogic.gdx.math.Vector2;
 import io.github.java_first_game.Core;
 import io.github.java_first_game.asset.AssetService;
 import io.github.java_first_game.asset.AtlasAsset;
+import io.github.java_first_game.components.Controller;
 import io.github.java_first_game.components.Graphic;
+import io.github.java_first_game.components.Move;
 import io.github.java_first_game.components.Transform;
 
 public class TiledConfiguration {
@@ -38,8 +40,24 @@ public class TiledConfiguration {
             tileMapObject.getScaleX(), tileMapObject.getScaleY(),
             entity
         );
+        addEntityController(tileMapObject, entity);
+        addEntityMove(tile, entity);
 
         this.engine.addEntity(entity);
+    }
+
+    private void addEntityMove(TiledMapTile tile, Entity entity) {
+        float speed = tile.getProperties().get("speed", 0f, Float.class);
+        if (speed == 0f) return;
+
+        entity.add(new Move(speed));
+    }
+
+    private void addEntityController(TiledMapTileMapObject tiledMapObject, Entity entity) {
+        boolean controller = tiledMapObject.getProperties().get("controller", false, Boolean.class);
+        if (!controller) return;
+
+        entity.add(new Controller());
     }
 
     private void addEntityTransform(
