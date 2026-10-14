@@ -15,9 +15,7 @@ import io.github.java_first_game.asset.AssetService;
 import io.github.java_first_game.asset.MapAsset;
 import io.github.java_first_game.input.GameControllerState;
 import io.github.java_first_game.input.KeyboardController;
-import io.github.java_first_game.systems.ControllerSystem;
-import io.github.java_first_game.systems.MoveSystem;
-import io.github.java_first_game.systems.RenderSystem;
+import io.github.java_first_game.systems.*;
 import io.github.java_first_game.tiled.TiledConfiguration;
 import io.github.java_first_game.tiled.TiledService;
 
@@ -40,6 +38,9 @@ public class GameScreen extends ScreenAdapter {
 
         this.engine.addSystem(new ControllerSystem());
         this.engine.addSystem(new MoveSystem());
+        this.engine.addSystem(new FsmSystem());
+        this.engine.addSystem(new FacingSystem());
+        this.engine.addSystem(new AnimationSystem(game.getAssetService()));
         this.engine.addSystem(new RenderSystem(game.getBatch(), game.getViewport(), game.getCamera()));
     }
 
