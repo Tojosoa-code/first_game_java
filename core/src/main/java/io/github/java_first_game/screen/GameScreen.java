@@ -2,16 +2,12 @@ package io.github.java_first_game.screen;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.java_first_game.Core;
-import io.github.java_first_game.asset.AssetService;
 import io.github.java_first_game.asset.MapAsset;
 import io.github.java_first_game.input.GameControllerState;
 import io.github.java_first_game.input.KeyboardController;
@@ -28,6 +24,7 @@ public class GameScreen extends ScreenAdapter {
     private final TiledService tiledService;
     private final TiledConfiguration tiledConfiguration;
     private final KeyboardController keyboardController;
+    private final World physicWorld;
 
     public GameScreen(Core game) {
         this.game = game;
@@ -35,13 +32,17 @@ public class GameScreen extends ScreenAdapter {
         this.engine = new Engine();
         this.tiledConfiguration = new TiledConfiguration(this.engine, game.getAssetService());
         this.keyboardController = new KeyboardController(GameControllerState.class, engine);
+        this.physicWorld = new World(Vector2.Zero, true);
+        this.physicWorld.setAutoClearForces(false);
 
         this.engine.addSystem(new ControllerSystem());
         this.engine.addSystem(new MoveSystem());
         this.engine.addSystem(new FsmSystem());
         this.engine.addSystem(new FacingSystem());
+        this.engine.addSystem(new PhysicSystem(physicWorld, 1 / 60f));
         this.engine.addSystem(new AnimationSystem(game.getAssetService()));
         this.engine.addSystem(new RenderSystem(game.getBatch(), game.getViewport(), game.getCamera()));
+        this.engine.addSystem(new PhysicDebugSystem(physicWorld, this.game.getCamera()));
     }
 
     @Override
@@ -75,5 +76,6 @@ public class GameScreen extends ScreenAdapter {
                 disposableSystem.dispose();
             }
         }
+        this.physicWorld.dispose();
     }
 }
