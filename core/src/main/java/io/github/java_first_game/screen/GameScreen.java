@@ -28,10 +28,10 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(Core game) {
         this.game = game;
-        this.tiledService = new TiledService(game.getAssetService());
         this.engine = new Engine();
         this.physicWorld = new World(Vector2.Zero, true);
         this.physicWorld.setAutoClearForces(false);
+        this.tiledService = new TiledService(game.getAssetService(), physicWorld);
         this.tiledConfiguration = new TiledConfiguration(this.engine, game.getAssetService(), physicWorld);
         this.keyboardController = new KeyboardController(GameControllerState.class, engine);
 
@@ -41,8 +41,9 @@ public class GameScreen extends ScreenAdapter {
         this.engine.addSystem(new FacingSystem());
         this.engine.addSystem(new PhysicSystem(physicWorld, 1 / 60f));
         this.engine.addSystem(new AnimationSystem(game.getAssetService()));
+        this.engine.addSystem(new CameraSystem(game.getCamera()));
         this.engine.addSystem(new RenderSystem(game.getBatch(), game.getViewport(), game.getCamera()));
-        this.engine.addSystem(new PhysicDebugSystem(physicWorld, this.game.getCamera()));
+        // this.engine.addSystem(new PhysicDebugSystem(physicWorld, this.game.getCamera()));
     }
 
     @Override
@@ -50,8 +51,9 @@ public class GameScreen extends ScreenAdapter {
         game.setInputProcessors(keyboardController);
         keyboardController.setActiveState(GameControllerState.class);
 
-        Consumer< TiledMap> renderconsumer = this.engine.getSystem(RenderSystem.class)::setMap;
-        this.tiledService.setMapChangeConsumer(renderconsumer);
+        Consumer< TiledMap> renderConsumer = this.engine.getSystem(RenderSystem.class)::setMap;
+        Consumer< TiledMap> cameraConsumer = this.engine.getSystem(CameraSystem.class)::setMap;
+        this.tiledService.setMapChangeConsumer(renderConsumer.andThen(cameraConsumer));
         this.tiledService.setLoadObjectConsumer(this.tiledConfiguration::onLoadObject);
         this.tiledService.setLoadTileConsumer(this.tiledConfiguration::onLoadTile);
 

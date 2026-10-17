@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="5">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="14">
  <tileset firstgid="1" source="map.tsx"/>
  <tileset firstgid="193" source="objects.tsx"/>
  <layer id="1" name="ground" width="30" height="20">
@@ -15,10 +15,20 @@
  <objectgroup id="4" name="objects">
   <object id="2" gid="195" x="72.9091" y="230" width="32" height="32">
    <properties>
+    <property name="camFollow" type="bool" value="true"/>
     <property name="controller" type="bool" value="true"/>
    </properties>
   </object>
   <object id="3" gid="194" x="3.5" y="229" width="41" height="63"/>
   <object id="4" gid="193" x="53" y="198.667" width="80" height="112"/>
+  <object id="5" gid="194" x="145.333" y="285.333" width="41" height="63"/>
+  <object id="6" gid="194" x="212" y="217.333" width="41" height="63"/>
+  <object id="7" gid="194" x="286" y="298.667" width="41" height="63"/>
+  <object id="8" gid="194" x="304" y="227.333" width="41" height="63"/>
+  <object id="9" gid="194" x="152" y="111.333" width="41" height="63"/>
+  <object id="10" gid="194" x="414.667" y="94.6667" width="41" height="63"/>
+  <object id="11" gid="194" x="282" y="120" width="41" height="63"/>
+  <object id="12" gid="194" x="310.667" y="306.667" width="41" height="63"/>
+  <object id="13" gid="194" x="330.667" y="295.333" width="41" height="63"/>
  </objectgroup>
 </map>
