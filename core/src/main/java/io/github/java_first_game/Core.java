@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import io.github.java_first_game.asset.AssetService;
+import io.github.java_first_game.audio.AudioService;
 import io.github.java_first_game.screen.GameScreen;
 import io.github.java_first_game.screen.LoadingScreen;
 
@@ -32,6 +33,7 @@ public class Core extends Game {
     private GLProfiler glProfiler;
     private FPSLogger fpsLogger;
     private InputMultiplexer inputMultiplexer;
+    private AudioService audioService;
 
     private final Map<Class<? extends Screen>, Screen> screenCache = new HashMap<>();
 
@@ -48,6 +50,7 @@ public class Core extends Game {
         this.glProfiler = new GLProfiler(Gdx.graphics);
         this.glProfiler.enable();
         this.fpsLogger = new FPSLogger();
+        this.audioService = new AudioService(assetService);
 
         addScreen(new LoadingScreen(this, assetService));
         setScreen(LoadingScreen.class);
@@ -124,4 +127,7 @@ public class Core extends Game {
         }
     }
 
+    public AudioService getAudioService() {
+        return audioService;
+    }
 }

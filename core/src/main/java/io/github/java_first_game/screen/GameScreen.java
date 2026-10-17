@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Disposable;
 import io.github.java_first_game.Core;
 import io.github.java_first_game.asset.MapAsset;
+import io.github.java_first_game.audio.AudioService;
 import io.github.java_first_game.input.GameControllerState;
 import io.github.java_first_game.input.KeyboardController;
 import io.github.java_first_game.systems.*;
@@ -25,6 +26,8 @@ public class GameScreen extends ScreenAdapter {
     private final TiledConfiguration tiledConfiguration;
     private final KeyboardController keyboardController;
     private final World physicWorld;
+    private final AudioService audioService;
+
 
     public GameScreen(Core game) {
         this.game = game;
@@ -34,8 +37,9 @@ public class GameScreen extends ScreenAdapter {
         this.tiledService = new TiledService(game.getAssetService(), physicWorld);
         this.tiledConfiguration = new TiledConfiguration(this.engine, game.getAssetService(), physicWorld);
         this.keyboardController = new KeyboardController(GameControllerState.class, engine);
+        this.audioService = game.getAudioService();
 
-        this.engine.addSystem(new ControllerSystem());
+        this.engine.addSystem(new ControllerSystem(game.getAudioService()));
         this.engine.addSystem(new PhysicMoveSystem());
         this.engine.addSystem(new FsmSystem());
         this.engine.addSystem(new FacingSystem());
@@ -53,7 +57,9 @@ public class GameScreen extends ScreenAdapter {
 
         Consumer< TiledMap> renderConsumer = this.engine.getSystem(RenderSystem.class)::setMap;
         Consumer< TiledMap> cameraConsumer = this.engine.getSystem(CameraSystem.class)::setMap;
-        this.tiledService.setMapChangeConsumer(renderConsumer.andThen(cameraConsumer));
+        Consumer< TiledMap> audioConsumer = audioService::setMap;
+
+        this.tiledService.setMapChangeConsumer(renderConsumer.andThen(cameraConsumer).andThen(audioConsumer));
         this.tiledService.setLoadObjectConsumer(this.tiledConfiguration::onLoadObject);
         this.tiledService.setLoadTileConsumer(this.tiledConfiguration::onLoadTile);
 

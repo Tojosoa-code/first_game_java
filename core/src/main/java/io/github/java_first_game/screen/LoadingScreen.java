@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import io.github.java_first_game.Core;
 import io.github.java_first_game.asset.AssetService;
 import io.github.java_first_game.asset.AtlasAsset;
+import io.github.java_first_game.asset.SoundAsset;
 
 public class LoadingScreen extends ScreenAdapter {
     private final Core game;
@@ -19,6 +20,9 @@ public class LoadingScreen extends ScreenAdapter {
     public void show() {
         for (AtlasAsset atlas : AtlasAsset.values()) {
             assetService.queue(atlas);
+        }
+        for (SoundAsset sound : SoundAsset.values()) {
+            assetService.queue(sound);
         }
     }
 
