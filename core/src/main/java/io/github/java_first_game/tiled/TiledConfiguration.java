@@ -8,22 +8,60 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.objects.TiledMapTileMapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.*;
 import io.github.java_first_game.Core;
 import io.github.java_first_game.asset.AssetService;
 import io.github.java_first_game.asset.AtlasAsset;
 import io.github.java_first_game.components.*;
+import io.github.java_first_game.components.Transform;
 import io.github.java_first_game.fsm.Fsm;
 
 public class TiledConfiguration {
+    private static final Vector2 DEFAULT_PHYSICS_SCALING = new Vector2(1f, 1f);
+
     private final Engine engine;
     private final AssetService assetService;
+    private final World physicsWorld;
 
-    public TiledConfiguration(Engine engine, AssetService assetService) {
+    public TiledConfiguration(Engine engine, AssetService assetService, World physicsWorld) {
         this.engine = engine;
         this.assetService = assetService;
+        this.physicsWorld = physicsWorld;
+    }
+
+
+    public void onLoadTile(TiledMapTile tiledMapTile, float x, float y) {
+        createBody(
+            tiledMapTile.getObjects(),
+            new Vector2(x, y),
+            DEFAULT_PHYSICS_SCALING,
+            BodyDef.BodyType.StaticBody,
+            Vector2.Zero,
+            "environment"
+        );
+    }
+
+    private Body createBody(MapObjects mapObjects, Vector2 position, Vector2 scaling, BodyDef.BodyType bodyType, Vector2 relativeTo, String userData) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = bodyType;
+        bodyDef.position.set(position);
+        bodyDef.fixedRotation = true;
+
+        Body body = physicsWorld.createBody(bodyDef);
+        body.setUserData(userData);
+
+        for (MapObject object : mapObjects) {
+            FixtureDef fixtureDef = TiledPhysics.fixtureDefOf(object, scaling, relativeTo);
+            Fixture fixture = body.createFixture(fixtureDef);
+            fixture.setUserData(object.getName());
+            fixtureDef.shape.dispose();
+        }
+        return body;
     }
 
     public void onLoadObject(TiledMapTileMapObject tileMapObject) {

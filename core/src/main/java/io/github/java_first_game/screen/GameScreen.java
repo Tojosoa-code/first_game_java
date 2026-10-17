@@ -30,10 +30,10 @@ public class GameScreen extends ScreenAdapter {
         this.game = game;
         this.tiledService = new TiledService(game.getAssetService());
         this.engine = new Engine();
-        this.tiledConfiguration = new TiledConfiguration(this.engine, game.getAssetService());
-        this.keyboardController = new KeyboardController(GameControllerState.class, engine);
         this.physicWorld = new World(Vector2.Zero, true);
         this.physicWorld.setAutoClearForces(false);
+        this.tiledConfiguration = new TiledConfiguration(this.engine, game.getAssetService(), physicWorld);
+        this.keyboardController = new KeyboardController(GameControllerState.class, engine);
 
         this.engine.addSystem(new ControllerSystem());
         this.engine.addSystem(new MoveSystem());
@@ -53,6 +53,7 @@ public class GameScreen extends ScreenAdapter {
         Consumer< TiledMap> renderconsumer = this.engine.getSystem(RenderSystem.class)::setMap;
         this.tiledService.setMapChangeConsumer(renderconsumer);
         this.tiledService.setLoadObjectConsumer(this.tiledConfiguration::onLoadObject);
+        this.tiledService.setLoadTileConsumer(this.tiledConfiguration::onLoadTile);
 
         TiledMap tiledMap = this.tiledService.loadMap(MapAsset.MAIN);
         this.tiledService.setMap(tiledMap);
