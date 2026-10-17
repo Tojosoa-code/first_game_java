@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
         this.keyboardController = new KeyboardController(GameControllerState.class, engine);
 
         this.engine.addSystem(new ControllerSystem());
-        this.engine.addSystem(new MoveSystem());
+        this.engine.addSystem(new PhysicMoveSystem());
         this.engine.addSystem(new FsmSystem());
         this.engine.addSystem(new FacingSystem());
         this.engine.addSystem(new PhysicSystem(physicWorld, 1 / 60f));

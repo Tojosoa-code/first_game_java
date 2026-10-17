@@ -35,7 +35,7 @@
         "objects.tsx"
     ],
     "project": "tilesets.tiled-project",
-    "property.type": "bool",
+    "property.type": "float",
     "recentFiles": [
         "objects.tsx",
         "map.tsx",
